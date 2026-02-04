@@ -3,8 +3,8 @@
     public class Pricing
     {
         public int Id { get; set; }
-        public string PriceBase { get; set; }
-        public string Price { get; set; }
+        public decimal? PriceBase { get; set; }
+        public decimal? Price { get; set; }
         public int? MortgageId { get; set; }
     }
 }

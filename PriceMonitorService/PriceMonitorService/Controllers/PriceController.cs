@@ -28,7 +28,8 @@ namespace PriceMonitorService.Controllers
 
             foreach (var subscription in activeSubscriptions)
             {
-                var priceInfo = await _priceMonitoringService.GetCurrentPriceInfoForSubscriptionAsync(subscription.ListingUrl);
+                var priceInfo = await _priceMonitoringService
+                    .GetCurrentPriceInfoForSubscriptionAsync(subscription.ListingUrl);
                 if (priceInfo != null)
                 {
                     priceInfos.Add(priceInfo);

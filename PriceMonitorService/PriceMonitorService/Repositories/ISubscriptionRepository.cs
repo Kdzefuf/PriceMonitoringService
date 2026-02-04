@@ -8,7 +8,5 @@ namespace PriceMonitorService.Repositories
         Task<Subscription> GetByIdAsync(int id);
         Task<Subscription> GetByUrlAsync(string url);
         Task<IEnumerable<Subscription>> GetAllActiveAsync();
-        Task UpdateAsync(Subscription subscription);
-        Task DeleteAsync(int id);
     }
 }

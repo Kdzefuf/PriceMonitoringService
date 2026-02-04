@@ -1,5 +1,6 @@
 ﻿using PriceMonitorService.Models;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace PriceMonitorService.Services
 {
@@ -38,10 +39,14 @@ namespace PriceMonitorService.Services
 
                 var jsonResponse = await response.Content.ReadAsStringAsync();
 
-                var apartmentData = JsonSerializer.Deserialize<ApartmentApiResponse>(
-                    jsonResponse,
-                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
-                );
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                    NumberHandling = JsonNumberHandling.AllowReadingFromString
+                };
+
+                var apartmentData = JsonSerializer.Deserialize<ApartmentApiResponse>(jsonResponse, options);
+
 
                 if (apartmentData?.Pricings == null || apartmentData.Pricings.Count == 0)
                 {
@@ -57,16 +62,15 @@ namespace PriceMonitorService.Services
                     return null;
                 }
 
-                var priceText = pricing.Price;
-
-                if (decimal.TryParse(priceText, out decimal price))
+                if (pricing?.Price == null)
                 {
-                    Console.WriteLine($"Цена для квартиры {apartmentId}: {price:N0} ₽");
-                    return price;
+                    Console.WriteLine($"Цена не найдена для квартиры {apartmentId}");
+                    return null;
                 }
 
-                Console.WriteLine($"Не удалось разобрать цену: {pricing.Price}");
-                return null;
+                decimal price = pricing.Price.Value;
+                Console.WriteLine($"Цена для квартиры {apartmentId}: {price:N0} ₽");
+                return price;
             }
             catch (Exception ex)
             {
@@ -76,7 +80,7 @@ namespace PriceMonitorService.Services
             }
         }
 
-        private string ExtractApartmentIdFromUrl(string url)
+        private static string? ExtractApartmentIdFromUrl(string url)
         {
             try
             {

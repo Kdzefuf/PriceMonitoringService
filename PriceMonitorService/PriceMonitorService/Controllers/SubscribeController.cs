@@ -39,7 +39,11 @@ namespace PriceMonitorService.Controllers
 
             if (currentPrice == null || currentPrice == 0)
             {
-                return BadRequest(new { message = "Не удалось получить цену по указанной ссылке. Проверьте корректность URL." });
+                return BadRequest(new
+                {
+                    message =
+                    "Не удалось получить цену по указанной ссылке. Проверьте корректность URL."
+                });
             }
 
             var subscription = new Subscription

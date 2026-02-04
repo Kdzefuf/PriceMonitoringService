@@ -12,7 +12,11 @@ namespace PriceMonitorService.Services
             _configuration = configuration;
         }
 
-        public async Task SendPriceChangeNotificationAsync(string email, string listingUrl, decimal oldPrice, decimal newPrice)
+        public async Task SendPriceChangeNotificationAsync(
+            string email,
+            string listingUrl,
+            decimal oldPrice,
+            decimal newPrice)
         {
             try
             {
@@ -44,9 +48,11 @@ namespace PriceMonitorService.Services
 
                 using var client = new SmtpClient();
 
-                Console.WriteLine($"Подключение к SMTP: {_configuration["Email:SmtpServer"]}:{_configuration["Email:SmtpPort"]}");
+                Console.WriteLine($"Подключение к SMTP: {_configuration["Email:SmtpServer"]}:" +
+                    $"{_configuration["Email:SmtpPort"]}");
 
-                await client.ConnectAsync(_configuration["Email:SmtpServer"], int.Parse(_configuration["Email:SmtpPort"]), MailKit.Security.SecureSocketOptions.None);
+                await client.ConnectAsync(_configuration["Email:SmtpServer"],
+                    int.Parse(_configuration["Email:SmtpPort"]), MailKit.Security.SecureSocketOptions.None);
 
                 Console.WriteLine($"Отправка письма на: {email}");
                 await client.SendAsync(message);
