@@ -7,6 +7,17 @@
 - MailKit - отправка электронной почты
 - Docker - контейнеризация
 
+## Запуск приложения
+
+Сборка docker-образа с помощью:
+```
+docker build -t pricemonitorservice -f PriceMonitorService/Dockerfile .
+```
+Запуск контейнера:
+```
+docker run -p 8080:8080 --name price-monitor -e ASPNETCORE_ENVIRONMENT=Development -e ASPNETCORE_HTTP_PORTS=8080 -v ${PWD}//app/data pricemonitorservice
+```
+
 ## Эндпоинты
 1. Подписка на отслеживание цены
 POST /api/subscribe
